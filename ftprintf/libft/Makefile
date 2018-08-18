@@ -6,16 +6,16 @@
 #    By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/18 21:04:05 by jmeier            #+#    #+#              #
-#    Updated: 2018/07/27 03:38:58 by jmeier           ###   ########.fr        #
+#    Updated: 2018/08/17 20:19:08 by jmeier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-LIST = ft_atoi ft_bzero ft_isalnum ft_isalpha ft_isascii ft_strstr \
+LIST = ft_atoi ft_bzero ft_isalnum ft_isalpha ft_isascii ft_strstr ft_strctrim \
 		ft_isdigit ft_isprint ft_itoa ft_itoa_base ft_lstadd ft_lstdel \
 		ft_lstdelone ft_lstiter ft_lstmap ft_lstnew ft_memalloc ft_memccpy \
 		ft_memchr ft_memcmp ft_memcpy ft_memdel ft_memmove ft_memset \
-		ft_putchar ft_putchar_fd ft_putendl ft_putendl_fd ft_putnbr \
+		ft_putchar ft_putchar_fd ft_putendl ft_putendl_fd ft_putnbr ft_arrdup \
 		ft_putnbr_fd ft_putstr ft_putstr_fd ft_strcat ft_strchr ft_strclr \
 		ft_strcmp ft_strcpy ft_strdel ft_strdup ft_strequ ft_striter \
 		ft_striteri ft_strjoin ft_strlcat ft_strlen ft_strmap ft_strmapi \
