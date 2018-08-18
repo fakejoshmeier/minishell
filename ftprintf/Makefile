@@ -6,7 +6,7 @@
 #    By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/30 14:06:03 by jmeier            #+#    #+#              #
-#    Updated: 2018/07/27 03:39:36 by jmeier           ###   ########.fr        #
+#    Updated: 2018/08/17 20:19:42 by jmeier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT = ft_atoi ft_bzero ft_isalnum ft_isalpha ft_isascii ft_strstr \
 		ft_isdigit ft_isprint ft_itoa ft_itoa_base ft_lstadd ft_lstdel \
 		ft_lstdelone ft_lstiter ft_lstmap ft_lstnew ft_memalloc ft_memccpy \
 		ft_memchr ft_memcmp ft_memcpy ft_memdel ft_memmove ft_memset \
-		ft_putchar ft_putchar_fd ft_putendl ft_putendl_fd ft_putnbr \
+		ft_putchar ft_putchar_fd ft_putendl ft_putendl_fd ft_putnbr ft_arrdup \
 		ft_putnbr_fd ft_putstr ft_putstr_fd ft_strcat ft_strchr ft_strclr \
 		ft_strcmp ft_strcpy ft_strdel ft_strdup ft_strequ ft_striter \
 		ft_striteri ft_strjoin ft_strlcat ft_strlen ft_strmap ft_strmapi \
@@ -32,7 +32,7 @@ LIBFT = ft_atoi ft_bzero ft_isalnum ft_isalpha ft_isascii ft_strstr \
 		ft_putlong ft_putlong_lc ft_putulong ft_putunbr_base_lc ft_putwstr \
 		ft_isvalue ft_numlen ft_putchars ft_putnbrf ft_unumlen ft_longlen \
 		ft_ulonglen ft_ulonglonglen ft_longlonglen ft_putstrn ft_putull \
-		ft_puthex ft_putlhex ft_putoct ft_ld ft_atoi_base ft_pow \
+		ft_puthex ft_putlhex ft_putoct ft_ld ft_atoi_base ft_pow ft_strctrim \
 		ft_strchr_ind ft_freearr ft_stricmp ft_count_words ft_sqroot \
 		ft_strfjoin get_file_contents
 

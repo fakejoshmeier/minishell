@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 12:01:46 by jmeier            #+#    #+#             */
-/*   Updated: 2018/07/27 03:42:07 by jmeier           ###   ########.fr       */
+/*   Updated: 2018/08/17 20:18:41 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char				*ft_strchr(const char *s, int c);
 void				ft_strclr(char *s);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strcpy(char *dst, const char *src);
+char				*ft_strctrim(const char *s, char c);
 void				ft_strdel(char **as);
 char				*ft_strdup(const char *src);
 int					ft_strequ(char const *s1, char const *s2);
@@ -142,6 +143,7 @@ char				*ft_strnew(size_t size);
 char				*ft_strnstr(const char *big, const char *lil, size_t len);
 char				*ft_strrchr(const char *s, int c);
 char				**ft_strsplit(char const *s, char c);
+char				**ft_arrdup(char **arr);
 char				*ft_strstr(const char *big, const char *little);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char const *s);
