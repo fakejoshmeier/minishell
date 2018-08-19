@@ -6,14 +6,14 @@
 /*   By: josh <jmeier@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 17:00:37 by josh              #+#    #+#             */
-/*   Updated: 2018/08/17 01:43:36 by josh             ###   ########.fr       */
+/*   Updated: 2018/08/17 21:21:14 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_H
 # define SH_H
 # include <libft.h>
-# include <ftprintf.h>
+# include <ft_printf.h>
 # include <time.h>
 # include <dirent.h>
 # include <fcntl.h>
@@ -21,23 +21,31 @@
 # include <termios.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <sys/param.h>
 
-# define RESET "\033[0m"
-# define BOLD "\033[1m"
+# define RES "\033[0m"
+# define B "\033[1m"
 # define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN "\033[36m"
-# define WHITE "\033[37m"
+# define GRE "\033[32m"
+# define YEL "\033[33m"
+# define BLU "\033[34m"
+# define MAG "\033[35m"
+# define CYA "\033[36m"
+# define WHI "\033[37m"
 
 typedef struct	s_sh
 {
-	char		*line;
+	char		*cwd;
+	char		*pwd;
+	char		*in;
+	char		**sp_in;
+	char		**sp_path;
 	char		**env;
 	char		*exe;
-	char		**exe_a;
+	char		**exe_args;
 }				t_sh;
+
+char			*in_read(void);
+void			in_parse(t_sh *sh);
 
 #endif
