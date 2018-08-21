@@ -6,13 +6,13 @@
 #    By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/14 16:30:04 by jmeier            #+#    #+#              #
-#    Updated: 2018/08/17 16:55:14 by jmeier           ###   ########.fr        #
+#    Updated: 2018/08/19 02:18:25 by jmeier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FUNC = main input
+FUNC = main input #builtin
 
 C_LOC = src/
 C_NAM = $(addsuffix .c, $(FUNC))

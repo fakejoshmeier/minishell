@@ -6,7 +6,7 @@
 /*   By: josh <jmeier@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 17:00:37 by josh              #+#    #+#             */
-/*   Updated: 2018/08/17 21:21:14 by jmeier           ###   ########.fr       */
+/*   Updated: 2018/08/19 01:59:01 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ typedef struct	s_sh
 {
 	char		*cwd;
 	char		*pwd;
-	char		*in;
-	char		**sp_in;
 	char		**sp_path;
+	char		*in;
+	char		**tokens;
 	char		**env;
 	char		*exe;
 	char		**exe_args;
@@ -47,5 +47,7 @@ typedef struct	s_sh
 
 char			*in_read(void);
 void			in_parse(t_sh *sh);
+
+void			*builtin_init(void);
 
 #endif
