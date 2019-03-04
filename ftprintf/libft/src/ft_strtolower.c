@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/17 16:49:27 by jmeier            #+#    #+#             */
-/*   Updated: 2018/08/19 02:20:06 by jmeier           ###   ########.fr       */
+/*   Created: 2018/08/25 03:44:13 by jmeier            #+#    #+#             */
+/*   Updated: 2018/08/25 03:45:36 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh.h>
+#include <libft.h>
 
-char	*in_read(void)
+void	ft_strtolower(char **s)
 {
-	char	*ret;
-	char	c;
-	int		i;
+	int	i;
 
-	ret = (char *)ft_memalloc(sizeof(char) * MAXPATHLEN);
 	i = 0;
-	while (read(STDIN_FILENO, &c, 1) && c != '\n')
-		ret[i++] = c;
-	ret[i] = '\0';
-	return (ret);
-}
-
-void	in_parse(t_sh *sh)
-{
-	sh->exe = ft_strtrim(sh->in);
-	sh->exe_args = ft_strsplit(sh->exe, ' ');
-	free(sh->pwd);
+	if (!s || !*s)
+		return ;
+	while (s[0][i])
+	{
+		if (s[0][i] >= 'A' && s[0][i] <= 'Z')
+			s[0][i] += 32;
+		i++;
+	}
+	return ;
 }

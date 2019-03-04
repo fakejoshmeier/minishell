@@ -6,17 +6,17 @@
 #    By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/14 16:30:04 by jmeier            #+#    #+#              #
-#    Updated: 2018/08/19 02:18:25 by jmeier           ###   ########.fr        #
+#    Updated: 2019/03/02 12:31:40 by jmeier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FUNC = main input #builtin
+FUNC = main read_line t_line signal command b_echo b_exit
 
 C_LOC = src/
 C_NAM = $(addsuffix .c, $(FUNC))
-C_SRC = $(addprefix $(C_LOC), $(C_NAM)
+C_SRC = $(addprefix $(C_LOC), $(C_NAM))
 
 O_LOC = obj/
 O_NAM = $(addsuffix .o, $(FUNC))
@@ -58,7 +58,7 @@ force:
 
 clean:
 	@echo "ザ・ワールド！"
-	@/bin/rm -f $(O_SRC)
+	@/bin/rm -f $(O_SRC) $(O_SRC2)
 
 fclean: clean
 	@/bin/rm -f $(NAME)
