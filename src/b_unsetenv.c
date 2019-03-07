@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_echo.c                                           :+:      :+:    :+:   */
+/*   b_unsetenv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/01 14:24:25 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/07 01:00:36 by jmeier           ###   ########.fr       */
+/*   Created: 2019/03/02 13:59:27 by jmeier            #+#    #+#             */
+/*   Updated: 2019/03/07 13:14:56 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void	b_echo(int ac, char **av, t_sh *sh)
+void	b_unsetenv(int ac, char **av, t_sh *sh)
 {
-	int		i;
-	int		nl;
+	t_cont	*old;
 
-	(void)sh;
-	i = 0;
-	nl = ac > 1 && av[1][0] == '-' && av[1][1] == 'n' ? 1 : 0;
-	while (++i < ac)
+	if (ac != 2)
 	{
-		if (!av[i] || (ft_strlen(av[i]) == 1 && ft_isspace(av[i][0])))
-			continue ;
-		ft_printf("%s", av[i]);
-		if (i + 1 < ac)
-			ft_putchar(' ');
+		ft_printf("usage: unsetenv VAR");
+		return ;
 	}
-	if (!nl)
-		ft_putchar('\n');
+	old = ft_map_remove(&sh->env, ft_map_hash(&sh->env, av[1]));
+	if (!old)
+		return ;
+	free(old->var);
+	free(old);
 }

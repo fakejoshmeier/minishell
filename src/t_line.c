@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 17:21:31 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/01 13:51:24 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/07 13:08:44 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	*line_pop(t_line *line, void *item)
 		return (NULL);
 	}
 	ft_memcpy(item, line->data + line->width * --line->length, line->width);
-	return (item);	
+	return (item);
 }
 
 void	*line_get(t_line *line, size_t idx)

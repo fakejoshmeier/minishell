@@ -1,12 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_cd.c                                             :+:      :+:    :+:   */
+/*   b_env.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/02 13:59:14 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/02 13:59:17 by jmeier           ###   ########.fr       */
+/*   Created: 2019/03/06 22:04:07 by jmeier            #+#    #+#             */
+/*   Updated: 2019/03/07 12:59:06 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh.h"
+
+void	b_env(int ac, char **av, t_sh *sh)
+{
+	char		**env;
+	unsigned	i;
+	int			sort;
+
+	sort = ac == 2 && !ft_strcmp(av[1], "-s") ? 1 : 0;
+	if (ac > 2 || (!sort && ac == 2))
+	{
+		ft_printf("usage: env [-s]\n");
+		return ;
+	}
+	env = map_to_array(&sh->env, sort);
+	i = 0;
+	while (i < sh->env.count)
+	{
+		ft_printf("%s\n", env[i]);
+		free(env[i++]);
+	}
+	free(env);
+}

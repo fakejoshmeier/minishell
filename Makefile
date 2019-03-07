@@ -6,13 +6,14 @@
 #    By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/14 16:30:04 by jmeier            #+#    #+#              #
-#    Updated: 2019/03/02 12:31:40 by jmeier           ###   ########.fr        #
+#    Updated: 2019/03/07 12:32:52 by jmeier           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FUNC = main read_line t_line signal command b_echo b_exit
+FUNC = main read_line t_line util command expand \
+b_echo b_exit b_env b_setenv b_unsetenv
 
 C_LOC = src/
 C_NAM = $(addsuffix .c, $(FUNC))

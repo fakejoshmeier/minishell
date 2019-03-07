@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeier <jmeier@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 14:53:06 by jmeier            #+#    #+#             */
-/*   Updated: 2019/02/16 13:44:52 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/07 12:56:15 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	*ft_map_remove(t_map *m, uint32_t hash)
 		m->data[hash % m->capacity] = bucket->next;
 		value = bucket->content;
 		free(bucket);
+		--m->count;
 		return (value);
 	}
 	last = NULL;
@@ -107,6 +108,7 @@ void	*ft_map_remove(t_map *m, uint32_t hash)
 	last->next = bucket->next;
 	value = bucket->content;
 	free(bucket);
+	--m->count;
 	return (value);
 }
 

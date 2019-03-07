@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 12:01:46 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/04 15:21:51 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/06 17:00:52 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-<<<<<<< HEAD
 typedef struct		s_map
 {
 	void			**data;
@@ -103,31 +102,6 @@ int					ft_stack_isempty(t_stack *s);
 ** Utility
 */
 
-=======
-double				ft_sqroot(double square);
-int					ft_count_words(char *str, char c);
-int					ft_stricmp(char const *a, char const *b);
-void				ft_freearr(char **array);
-void				ft_strtoupper(char **str);
-void				ft_strtolower(char **str);
-int					ft_strchr_ind(const char *s, int c);
-void				ft_ld(long n);
-void				ft_puthex(unsigned long long n);
-void				ft_putlhex(unsigned long long n);
-void				ft_putoct(unsigned long long n);
-void				ft_putull(unsigned long long n);
-void				ft_putnbrf(int n);
-int					ft_numlen(int n, int base);
-int					ft_unumlen(unsigned int n, int base);
-int					ft_longlen(long n, int base);
-int					ft_ulonglen(unsigned long n, int base);
-int					ft_longlonglen(long long n, int base);
-int					ft_ulonglonglen(unsigned long long n, int base);
-void				ft_putstrn(char *s, int n);
-void				ft_putwstr(wchar_t *str);
-void				*ft_realloc(void *ptr, size_t new_size);
-void				ft_free(void *ptr);
->>>>>>> 4e871f43b35ec322df439dab0b5f269947e0b667
 int					get_next_line(const int fd, char **line);
 size_t				get_file_contents(char *filename, char **fill);
 int					ft_atoi(const char *str);
@@ -160,6 +134,7 @@ uint64_t			ft_fnv64(const uint8_t *data, size_t size);
 uint32_t			ft_map_hash(t_map *m, const char *key);
 void				ft_map_init(t_map *map, unsigned int key_size, unsigned int
 size);
+void				*ft_map_get(t_map *m, uint32_t hash);
 void				ft_map_set(t_map *m, uint32_t hash, void *ptr);
 void				*ft_map_remove(t_map *m, uint32_t hash);
 void				ft_map_resize(t_map *m, unsigned size);
@@ -201,6 +176,9 @@ int					ft_strchr_ind(const char *s, int c);
 char				*ft_strstr(const char *big, const char *little);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char const *s);
+void				ft_strtoupper(char **s);
+void				ft_strtolower(char **s);
+void				ft_strappend(char **src, char *add);
 
 /*
 ** Memory
@@ -276,46 +254,4 @@ void				ft_putulonglong(unsigned long long n,
 												unsigned long long b, int fd);
 void				ft_putstr(char *s);
 void				ft_putstr_fd(char const *s, int fd);
-<<<<<<< HEAD
-=======
-char				*ft_strcat(char *dst, const char *src);
-char				*ft_strchr(const char *s, int c);
-void				ft_strclr(char *s);
-char				*ft_strclean(char *s);
-int					ft_strcmp(const char *s1, const char *s2);
-char				*ft_strcpy(char *dst, const char *src);
-char				*ft_strctrim(const char *s, char c);
-void				ft_strdel(char **as);
-char				*ft_strdup(const char *src);
-char				*ft_strndup(const char *src, int len);
-int					ft_strequ(char const *s1, char const *s2);
-void				ft_striter(char *s, void (*f)(char *));
-void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-char				*ft_strfjoin(char *s1, char const *s2);
-char				*ft_strjoin(char const *s1, char const *s2);
-size_t				ft_strlcat(char *dst, const char *src, size_t size);
-int					ft_strlen(const char *s);
-char				*ft_strmap(char const *s, char (*f)(char));
-char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char				*ft_strncat(char *s1, const char *s2, size_t n);
-int					ft_strncmp(const char *s1, const char *s2, size_t n);
-char				*ft_strncpy(char *dst, const char *src, size_t n);
-char				*ft_str_to_hex(char *s);
-char				*ft_random_hex(int size);
-int					ft_strnequ(char const *s1, char const *s2, size_t n);
-char				*ft_strnew(size_t size);
-char				*ft_strnstr(const char *big, const char *lil, size_t len);
-char				*ft_strrchr(const char *s, int c);
-char				**ft_strsplit(char const *s, char c);
-char				**ft_arrdup(char **arr);
-char				*ft_strstr(const char *big, const char *little);
-char				*ft_strsub(char const *s, unsigned int start, size_t len);
-char				*ft_strtrim(char const *s);
-int					ft_sqrt(unsigned int nb);
-int					ft_pow(int nb, int ex);
-int					ft_atoi_base(char *nb, int base);
-int					*ft_atoi_arr(char *str);
-int					ft_tolower(int c);
-int					ft_toupper(int c);
->>>>>>> 4e871f43b35ec322df439dab0b5f269947e0b667
 #endif

@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_strappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/01 13:52:13 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/01 15:58:24 by jmeier           ###   ########.fr       */
+/*   Created: 2019/03/06 16:17:39 by jmeier            #+#    #+#             */
+/*   Updated: 2019/03/06 16:26:32 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "libft.h"
 
-extern volatile	sig_atomic_t g_running;
-extern volatile	sig_atomic_t g_clear;
-
-void	signal_handler(int signal, void (*handler))
+void	ft_strappend(char **src, char *add)
 {
-	struct sigaction	action;
+	char	*new;
+	int		len;
+	int		i;
+	int		j;
 
-	action = (struct sigaction){.sa_handler = handler, .sa_flags = 0};
-	sigemptyset(&action.sa_mask);
-	sigaction(signal, &action, NULL);
-}
-
-void	ignore(void)
-{
-	g_clear = TRUE;
-}
-
-void	quit(void)
-{
-	g_running = FALSE;
+	len = (*src ? ft_strlen(*src) : 0) + (add ? ft_strlen(add) : 0);
+	if ((new = ft_strnew(len)))
+	{
+		i = 0;
+		if (src && *src)
+			while ((*src)[i])
+			{
+				new[i] = (*src)[i];
+				++i;
+			}
+		j = 0;
+		if (add)
+			while (*add)
+				new[i + j++] = *add++;
+		free(*src);
+		*src = new;
+	}
 }
