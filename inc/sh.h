@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 17:00:37 by josh              #+#    #+#             */
-/*   Updated: 2019/03/07 14:30:27 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 15:48:08 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@
 
 # define ENVIRON extern char **environ
 
-typedef struct	s_line
+typedef struct		s_line
 {
-	uint8_t		*data;
-	size_t		capacity;
-	size_t		length;
-	size_t		width;
-}				t_line;
+	uint8_t			*data;
+	size_t			capacity;
+	size_t			length;
+	size_t			width;
+}					t_line;
 
-typedef struct	s_cont
+typedef struct		s_cont
 {
-	char		*var;
-	char		*value;
-}				t_cont;
+	char			*var;
+	char			*value;
+}					t_cont;
 
-typedef struct	s_sh
+typedef struct		s_sh
 {
 	char			cwd[MAXPATHLEN];
 	char			old[MAXPATHLEN];
@@ -50,34 +50,36 @@ typedef struct	s_sh
 	t_map			path;
 }					t_sh;
 
-typedef void	(*t_fptr)(int ac, char **av, t_sh *sh);
+typedef void		(*t_fptr)(int ac, char **av, t_sh *sh);
 
-int		read_line(t_line *line, t_sh *sh);
+int					read_line(t_line *line, t_sh *sh);
+void				enter_raw_mode(void);
 
-t_line	*init_line(size_t size);
-void	line_resize(t_line *line, size_t size);
-void	line_push(t_line *line, void *new);
-void	*line_pop(t_line *line, void *item);
-void	*line_get(t_line *line, size_t idx);
+t_line				*init_line(size_t size);
+void				line_resize(t_line *line, size_t size);
+void				line_push(t_line *line, void *new);
+void				*line_pop(t_line *line, void *item);
+void				*line_get(t_line *line, size_t idx);
 
-void	signal_handler(int signal, void (*handler));
-void	ignore(void);
-void	quit(void);
-char	**sanitize_av(char **av, int *ac);
-char	**map_to_array(t_map *map, int sort);
+void				signal_handler(int signal, void (*handler));
+void				ignore(void);
+void				quit(void);
+char				**sanitize_av(char **av, int *ac);
+char				**map_to_array(t_map *map, int sort);
 
-void	command_parse(t_line *line, t_sh *sh);
-void	command_run(char *input, t_sh *sh);
-void	get_av_ac(char *in, char ***av, int *ac, t_sh *sh);
-void	execute(char *cmd, char **av, t_sh *sh);
-int		check_executable(char *exe);
+void				update_path(t_sh *sh);
+void				command_parse(t_line *line, t_sh *sh);
+void				command_run(char *input, t_sh *sh);
+void				get_av_ac(char *in, char ***av, int *ac, t_sh *sh);
+void				execute(char *cmd, char **av, t_sh *sh);
+int					check_executable(char *exe);
 
-char	*expand(char *in, t_sh *sh);
+char				*expand(char *in, t_sh *sh);
 
-void	b_echo(int ac, char **av, t_sh *sh);
-void	b_cd(int ac, char **av, t_sh *sh);
-void	b_env(int ac, char **av, t_sh *sh);
-void	b_setenv(int ac, char **av, t_sh *sh);
-void	b_unsetenv(int ac, char **av, t_sh *sh);
-void	b_exit(int ac, char **av, t_sh *sh);
+void				b_echo(int ac, char **av, t_sh *sh);
+void				b_cd(int ac, char **av, t_sh *sh);
+void				b_env(int ac, char **av, t_sh *sh);
+void				b_setenv(int ac, char **av, t_sh *sh);
+void				b_unsetenv(int ac, char **av, t_sh *sh);
+void				b_exit(int ac, char **av, t_sh *sh);
 #endif

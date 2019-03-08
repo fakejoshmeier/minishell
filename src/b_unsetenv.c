@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 13:59:27 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/07 13:14:56 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 06:29:13 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,6 @@ void	b_unsetenv(int ac, char **av, t_sh *sh)
 		return ;
 	free(old->var);
 	free(old);
+	if (!ft_strcmp(av[1], "PATH"))
+		ft_map_clean(&sh->path, free);
 }

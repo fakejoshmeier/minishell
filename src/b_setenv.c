@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/02 13:59:35 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/07 13:08:23 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 06:28:05 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ void	b_setenv(int ac, char **av, t_sh *sh)
 	ft_strcat(new->var, "=");
 	ft_strcat(new->var, av[2]);
 	ft_map_set(&sh->env, ft_map_hash(&sh->env, av[1]), new);
+	if (ac == 3 && !ft_strcmp(av[1], "PATH"))
+	{
+		ft_map_clean(&sh->path, free);
+		update_path(sh);
+	}
 }

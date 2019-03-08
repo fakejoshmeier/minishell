@@ -6,11 +6,12 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 23:20:29 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/07 14:49:19 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 15:42:32 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+#include <errno.h>
 
 void	command_parse(t_line *line, t_sh *sh)
 {
@@ -28,23 +29,31 @@ void	command_parse(t_line *line, t_sh *sh)
 	line->length = 0;
 }
 
+/*
+** The first call checks for compiled executables, eg this.
+** The second call is builtin functions
+** The final call is system functions like ls.
+*/
+
 void	command_run(char *input, t_sh *sh)
 {
 	t_fptr	b_in;
 	char	**av;
+	char	*sys;
 	int		ac;
 	int		i;
 
 	ac = 1;
 	get_av_ac(input, &av, &ac, sh);
-	ft_strtolower(&av[0]);
 	av = sanitize_av(av, &ac);
+	ft_strtolower(&av[0]);
 	if (check_executable(av[0]))
-	//	execute(av[0], av, sh);
-		printf("WOOHOO!\n");
+		execute(av[0], av, sh);
 	else if ((b_in = ft_map_get(&sh->builtin,
 		ft_map_hash(&sh->builtin, av[0]))))
 		b_in(ac, av, sh);
+	else if ((sys = ft_map_get(&sh->path, ft_map_hash(&sh->path, av[0]))))
+		execute(sys, av, sh);
 	else
 		ft_printf(BLU"jo.sh"RES": command not found: %s\n", av[0]);
 	i = 0;
@@ -86,22 +95,28 @@ void	get_av_ac(char *x, char ***av, int *ac, t_sh *sh)
 		}
 }
 
-// void	execute(char *cmd, char **av, t_sh *sh)
-// {
-// 	pid_t	pid;
-// 	char	**env;
+void	execute(char *cmd, char **av, t_sh *sh)
+{
+	pid_t	pid;
+	char	**env;
 
-
-// 	pid = fork();
-// 	env = NULL;
-// 	if (pid == 0)
-// 	{
-
-// 	}
-// 	else
-// 		waitpid(pid, 0, 0);
-// 	free(env);
-// }
+	pid = fork();
+	env = NULL;
+	if (pid == 0)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &sh->term_settings);
+		env = map_to_array(&sh->env, 0);
+		execve(cmd, av, env);
+		printf("%s\n", strerror(errno));
+		ft_putendl("Failed to execute command");
+		free(av);
+		exit(1);
+	}
+	else
+		waitpid(pid, 0, 0);
+	enter_raw_mode();
+	free(env);
+}
 
 int		check_executable(char *exe)
 {

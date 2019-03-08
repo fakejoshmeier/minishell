@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 13:52:13 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/07 13:13:34 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 15:44:20 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	**sanitize_av(char **av, int *ac)
 	while (++i < *ac)
 		if (tmp[i])
 			++ac_new;
-	av_new = (char **)malloc(sizeof(char *) * ac_new);
+	av_new = (char **)malloc(sizeof(char *) * ac_new + 1);
+	av_new[ac_new] = NULL;
 	i = -1;
 	j = 0;
 	while (++i < *ac)
@@ -77,7 +78,8 @@ char	**map_to_array(t_map *map, int sort)
 	unsigned	i;
 	unsigned	j;
 
-	env = (char **)ft_memalloc((sizeof(char *) * map->count));
+	env = (char **)ft_memalloc((sizeof(char *) * map->count + 1));
+	env[map->count] = NULL;
 	i = 0;
 	j = 0;
 	while (i < map->capacity)

@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 16:47:59 by josh              #+#    #+#             */
-/*   Updated: 2019/03/07 14:52:06 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 15:46:06 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@ volatile	sig_atomic_t g_running = TRUE;
 volatile	sig_atomic_t g_clear = FALSE;
 
 ENVIRON;
+
+/*
+** Turns off echo and canonical mode, meaning my program must write out all my
+** input and every input is read byte by byte
+*/
+
+void	enter_raw_mode(void)
+{
+	struct termios	raw;
+
+	tcgetattr(STDIN_FILENO, &raw);
+	raw.c_lflag &= ~(ECHO);
+	raw.c_lflag &= ~(ICANON);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, &raw);
+}
 
 /*
 ** Turning the '=' into a '/0' turns tmp->var into just the var name, which I
@@ -30,7 +47,7 @@ void	hash_slinging_slasher(t_sh *sh)
 	t_cont	*tmp;
 	int		i;
 
-	ft_map_init(&sh->builtin, 0, 17);
+	ft_map_init(&sh->builtin, 0, 18);
 	ft_map_init(&sh->env, 0, 99);
 	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "echo"), &b_echo);
 	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "cd"), &b_cd);
@@ -49,6 +66,8 @@ void	hash_slinging_slasher(t_sh *sh)
 		ft_map_set(&sh->env, ft_map_hash(&sh->env, tmp->var), tmp);
 		*(tmp->value)++ = '=';
 	}
+	ft_map_init(&sh->path, 0, 1080);
+	update_path(sh);
 }
 
 void	prompt(void)
@@ -62,8 +81,13 @@ void	prompt(void)
 		write(1, "\n", 1);
 	}
 	getcwd(pwd, PATH_MAX);
-	curr = ft_strrchr(pwd, '/');
-	curr = curr ? curr + 1 : "?";
+	if (pwd[0] == '/' && ft_strlen(pwd) == 1)
+		curr = "/";
+	else
+	{
+		curr = ft_strrchr(pwd, '/');
+		curr = curr ? curr + 1 : "?";
+	}
 	ft_printf(BLU"jo.sh "MAG B "%s "RES GRE"$ "RES, curr);
 }
 
@@ -73,25 +97,25 @@ int		main(void)
 	t_line	*line;
 
 	tcgetattr(STDIN_FILENO, &sh.term_settings);
+	enter_raw_mode();
 	getcwd(sh.cwd, MAXPATHLEN);
 	getcwd(sh.old, MAXPATHLEN);
-//	signal_handler(SIGTERM, quit);
-//	signal_handler(SIGQUIT, quit);
-//	signal_handler(SIGINT, ignore);
+	signal_handler(SIGTERM, quit);
+	signal_handler(SIGQUIT, quit);
+	signal_handler(SIGINT, ignore);
 	hash_slinging_slasher(&sh);
 	line = init_line(1);
 	prompt();
 	while (g_running)
 	{
-		if ((!read_line(line, &sh)))
+		if ((!read_line(line, &sh)) && !g_clear)
 			continue ;
-		!g_clear && line->length > 1 ? command_parse(line, &sh) :
-			(line->length = 0);
+		line->length > 1 ? command_parse(line, &sh) : (line->length = 0);
 		if (g_running)
 			prompt();
 	}
 	free(line->data);
 	free(line);
-	// cleanup(sh);
+	cleanup(sh);
 	return (0);
 }
