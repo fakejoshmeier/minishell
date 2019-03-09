@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 16:47:59 by josh              #+#    #+#             */
-/*   Updated: 2019/03/08 16:02:59 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 18:22:49 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ ENVIRON;
 ** Turns off echo and canonical mode, meaning my program must write out all my
 ** input and every input is read byte by byte
 */
+
+int		handle_clear(t_line *line)
+{
+	if (g_clear)
+		line->length = 0;
+	return (g_clear);
+}
 
 void	enter_raw_mode(void)
 {
@@ -108,7 +115,7 @@ int		main(void)
 	prompt();
 	while (g_running)
 	{
-		if ((!read_line(line, &sh)) && !g_clear)
+		if ((!read_line(line, &sh)) && !handle_clear(line))
 			continue ;
 		line->length > 1 ? command_parse(line, &sh) : (line->length = 0);
 		if (g_running)
