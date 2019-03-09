@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strfjoin.c                                      :+:      :+:    :+:   */
+/*   ft_strappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 16:19:55 by jmeier            #+#    #+#             */
-/*   Updated: 2018/10/22 16:19:59 by jmeier           ###   ########.fr       */
+/*   Created: 2019/03/06 16:17:39 by jmeier            #+#    #+#             */
+/*   Updated: 2019/03/06 16:26:32 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-char	*ft_strfjoin(char *s1, char const *s2)
+void	ft_strappend(char **src, char *add)
 {
-	char	*str;
-	int		len1;
-	int		len2;
-	int		a;
-	int		z;
+	char	*new;
+	int		len;
+	int		i;
+	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = (int)ft_strlen(s1);
-	len2 = (int)ft_strlen(s2);
-	str = ft_strnew(len1 + len2);
-	if (!str)
-		return (NULL);
-	a = -1;
-	z = -1;
-	while (++a < len1)
-		*(str + a) = *(s1 + a);
-	while (++z < len2)
-		*(str + a++) = *(s2 + z);
-	free(s1);
-	return (str);
+	len = (*src ? ft_strlen(*src) : 0) + (add ? ft_strlen(add) : 0);
+	if ((new = ft_strnew(len)))
+	{
+		i = 0;
+		if (src && *src)
+			while ((*src)[i])
+			{
+				new[i] = (*src)[i];
+				++i;
+			}
+		j = 0;
+		if (add)
+			while (*add)
+				new[i + j++] = *add++;
+		free(*src);
+		*src = new;
+	}
 }

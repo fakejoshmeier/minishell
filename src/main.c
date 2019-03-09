@@ -3,54 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josh <jmeier@student.42.us.org>            +#+  +:+       +#+        */
+/*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 16:47:59 by josh              #+#    #+#             */
-/*   Updated: 2018/08/17 21:16:45 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 16:02:59 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh.h>
+#include "sh.h"
 
-void	ft_error(char *str)
+volatile	sig_atomic_t g_running = TRUE;
+volatile	sig_atomic_t g_clear = FALSE;
+
+ENVIRON;
+
+/*
+** Turns off echo and canonical mode, meaning my program must write out all my
+** input and every input is read byte by byte
+*/
+
+void	enter_raw_mode(void)
 {
-	ft_printf(RED"%s"RES, str);
-	write(1, "\n", 1);
-	exit(1);
+	struct termios	raw;
+
+	tcgetattr(STDIN_FILENO, &raw);
+	raw.c_lflag &= ~(ECHO);
+	raw.c_lflag &= ~(ICANON);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 }
 
-void	cwd(t_sh *sh)
+/*
+** Turning the '=' into a '/0' turns tmp->var into just the var name, which I
+** use for hashing goodness.  Then adding the '=' back and shifting the
+** value address, I can compare it to any new values later
+** I've got 33 env variables, so making the capacity 3x larger seems like a
+** good bet.
+*/
+
+void	hash_slinging_slasher(t_sh *sh)
 {
+	t_cont	*tmp;
 	int		i;
 
+	ft_map_init(&sh->builtin, 0, 18);
+	ft_map_init(&sh->env, 0, 99);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "echo"), &b_echo);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "cd"), &b_cd);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "env"), &b_env);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "setenv"), &b_setenv);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "unsetenv"),
+		&b_unsetenv);
+	ft_map_set(&sh->builtin, ft_map_hash(&sh->builtin, "exit"), &b_exit);
 	i = -1;
-	sh->cwd = NULL;
-	sh->pwd = getcwd(sh->cwd, MAXPATHLEN);
-	sh->sp_path = ft_strsplit(sh->pwd, '/');
-	while (sh->sp_path[++i] != NULL)
-		sh->cwd = sh->sp_path[i];
-	ft_printf(YEL"★  "MAG B"%s "RES BLU"jo.sh "GRE B"$>"RES, sh->cwd);
+	while (environ[++i])
+	{
+		tmp = (t_cont *)malloc(sizeof(t_cont));
+		tmp->var = ft_strdup(environ[i]);
+		tmp->value = ft_strchr(tmp->var, '=');
+		*(tmp->value) = '\0';
+		ft_map_set(&sh->env, ft_map_hash(&sh->env, tmp->var), tmp);
+		*(tmp->value)++ = '=';
+	}
+	ft_map_init(&sh->path, 0, 1080);
+	update_path(sh);
 }
 
-int		main(int ac, char *av[], char **envp)
+void	prompt(void)
+{
+	char	pwd[PATH_MAX];
+	char	*curr;
+
+	if (g_clear)
+	{
+		g_clear = FALSE;
+		write(1, "\n", 1);
+	}
+	getcwd(pwd, PATH_MAX);
+	if (pwd[0] == '/' && ft_strlen(pwd) == 1)
+		curr = "/";
+	else
+	{
+		curr = ft_strrchr(pwd, '/');
+		curr = curr ? curr + 1 : "?";
+	}
+	ft_printf(BLU"jo.sh "MAG B "%s "RES GRE"$ "RES, curr);
+}
+
+int		main(void)
 {
 	t_sh	sh;
+	t_line	*line;
 
-	(void)ac;
-	(void)av;
-	ft_bzero(&sh, sizeof(t_sh));
-	if (!(sh.env = ft_arrdup(envp)))
-		ft_error("Failed to copy environment variables.");
-	while (1)
+	tcgetattr(STDIN_FILENO, &sh.term_settings);
+	enter_raw_mode();
+	getcwd(sh.cwd, MAXPATHLEN);
+	getcwd(sh.old, MAXPATHLEN);
+	signal_handler(SIGTERM, quit);
+	signal_handler(SIGQUIT, quit);
+	signal_handler(SIGINT, ignore);
+	hash_slinging_slasher(&sh);
+	line = init_line(1);
+	prompt();
+	while (g_running)
 	{
-		cwd(&sh);
-		if ((sh.in = in_read()))
-		{
-			in_parse(&sh);
-			free(sh.in);
-			free(sh.pwd);
-		}
-		MATCH(sh.sp_path, ft_freearr(sh.sp_path));
+		if ((!read_line(line, &sh)) && !g_clear)
+			continue ;
+		line->length > 1 ? command_parse(line, &sh) : (line->length = 0);
+		if (g_running)
+			prompt();
 	}
+	free(line->data);
+	free(line);
 	return (0);
 }

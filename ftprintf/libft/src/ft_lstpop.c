@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_lstpop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmeier <jmeier@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/18 14:40:19 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/04 11:23:47 by jmeier           ###   ########.fr       */
+/*   Created: 2019/02/16 13:54:17 by jmeier            #+#    #+#             */
+/*   Updated: 2019/02/18 16:37:38 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
-{
-	char	*newstr;
-	int		len;
-	int		j;
+/*
+** Deletes the first element and returns the content
+*/
 
-	len = ft_strlen(src);
-	j = 0;
-	if (!(newstr = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (j < len)
-		newstr[j++] = *src++;
-	newstr[j] = '\0';
-	return (newstr);
+void	*ft_lstpop(t_list **lst)
+{
+	t_list	*tmp;
+	void	*content;
+
+	content = NULL;
+	if (*lst)
+	{
+		tmp = *lst;
+		*lst = tmp->next;
+		content = tmp->content;
+		free(tmp);
+	}
+	return (content);
 }

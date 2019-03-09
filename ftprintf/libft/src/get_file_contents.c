@@ -6,17 +6,18 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/27 02:05:44 by jmeier            #+#    #+#             */
-/*   Updated: 2018/07/27 03:42:52 by jmeier           ###   ########.fr       */
+/*   Updated: 2018/09/01 12:28:45 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 static size_t	lines(int fd, char **fill)
 {
 	if (fd != -1)
 		close(fd);
-	free(*fill);
 	*fill = NULL;
 	return (0);
 }

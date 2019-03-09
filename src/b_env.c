@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strfjoin.c                                      :+:      :+:    :+:   */
+/*   b_env.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 16:19:55 by jmeier            #+#    #+#             */
-/*   Updated: 2018/10/22 16:19:59 by jmeier           ###   ########.fr       */
+/*   Created: 2019/03/06 22:04:07 by jmeier            #+#    #+#             */
+/*   Updated: 2019/03/08 16:12:07 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "sh.h"
 
-char	*ft_strfjoin(char *s1, char const *s2)
+void	b_env(int ac, char **av, t_sh *sh)
 {
-	char	*str;
-	int		len1;
-	int		len2;
-	int		a;
-	int		z;
+	char		**env;
+	unsigned	i;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = (int)ft_strlen(s1);
-	len2 = (int)ft_strlen(s2);
-	str = ft_strnew(len1 + len2);
-	if (!str)
-		return (NULL);
-	a = -1;
-	z = -1;
-	while (++a < len1)
-		*(str + a) = *(s1 + a);
-	while (++z < len2)
-		*(str + a++) = *(s2 + z);
-	free(s1);
-	return (str);
+	(void)av;
+	if (ac > 1)
+	{
+		ft_printf("usage: env [-s]\n");
+		return ;
+	}
+	env = map_to_array(&sh->env);
+	i = 0;
+	while (i < sh->env.count)
+	{
+		ft_printf("%s\n", env[i]);
+		free(env[i++]);
+	}
+	free(env);
 }

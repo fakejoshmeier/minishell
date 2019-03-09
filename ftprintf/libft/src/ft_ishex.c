@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strfjoin.c                                      :+:      :+:    :+:   */
+/*   ft_ishex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 16:19:55 by jmeier            #+#    #+#             */
-/*   Updated: 2018/10/22 16:19:59 by jmeier           ###   ########.fr       */
+/*   Created: 2018/08/24 04:42:22 by jmeier            #+#    #+#             */
+/*   Updated: 2018/08/24 04:43:56 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char	*ft_strfjoin(char *s1, char const *s2)
+int		ft_ishex(char c)
 {
-	char	*str;
-	int		len1;
-	int		len2;
-	int		a;
-	int		z;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = (int)ft_strlen(s1);
-	len2 = (int)ft_strlen(s2);
-	str = ft_strnew(len1 + len2);
-	if (!str)
-		return (NULL);
-	a = -1;
-	z = -1;
-	while (++a < len1)
-		*(str + a) = *(s1 + a);
-	while (++z < len2)
-		*(str + a++) = *(s2 + z);
-	free(s1);
-	return (str);
+	if (ft_isdigit(c))
+		return (1);
+	if ((c >= 'a') && (c <= 'f'))
+		return (1);
+	if ((c >= 'A') && (c <= 'F'))
+		return (1);
+	return (0);
 }
