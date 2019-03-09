@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 17:00:37 by josh              #+#    #+#             */
-/*   Updated: 2019/03/08 15:48:08 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 16:10:51 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void				signal_handler(int signal, void (*handler));
 void				ignore(void);
 void				quit(void);
 char				**sanitize_av(char **av, int *ac);
-char				**map_to_array(t_map *map, int sort);
+char				**map_to_array(t_map *map);
 
 void				update_path(t_sh *sh);
 void				command_parse(t_line *line, t_sh *sh);

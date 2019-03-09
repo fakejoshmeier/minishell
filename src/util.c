@@ -6,7 +6,7 @@
 /*   By: jmeier <jmeier@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 13:52:13 by jmeier            #+#    #+#             */
-/*   Updated: 2019/03/08 15:44:20 by jmeier           ###   ########.fr       */
+/*   Updated: 2019/03/08 16:10:23 by jmeier           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ char	**sanitize_av(char **av, int *ac)
 ** returned array though.
 */
 
-char	**map_to_array(t_map *map, int sort)
+char	**map_to_array(t_map *map)
 {
 	t_list		*link;
 	t_cont		*tmp;
-	char		**env;
+	void		**env;
 	unsigned	i;
 	unsigned	j;
 
-	env = (char **)ft_memalloc((sizeof(char *) * map->count + 1));
+	env = ft_memalloc((sizeof(char *) * map->count + 1));
 	env[map->count] = NULL;
 	i = 0;
 	j = 0;
@@ -93,8 +93,5 @@ char	**map_to_array(t_map *map, int sort)
 			link = link->next;
 		}
 	}
-	if (sort)
-		printf("HI");
-//		ft_qsort(env, map->count);
-	return (env);
+	return ((char **)env);
 }
